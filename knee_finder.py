@@ -375,21 +375,6 @@ class KneeFinder():
                 
         '''
         
-        # Set some p0 and bounds values based on the cycle numbers
-        # of the data being considered by the KneeFinder instance
-        #self.bw_p0[3] = x_data[-1]/1.5
-        
-        # Overcome the x0 is infeasible error by adjusting the initial guess
-        # values to be within the range of truncated x values
-        # self.bw_p0[3] = x_data[0] + ((x_data[-1] - x_data[0]) / 1.5)
-        
-        
-        # # Set the upper bound to be the final cycle
-        # self.bw_bounds[1][3] = x_data[-1]
-        # # Experimental
-        # self.bw_bounds[0][3] = x_data[0]
-        
-        
         # Get p0/bounds from self.fitting_params dict
         p0 = self.fitting_params[self.mode]['bw']['p0']
         bounds = self.fitting_params[self.mode]['bw']['bounds']
@@ -424,28 +409,6 @@ class KneeFinder():
                 over the range of values present in x_data. This has the same
                 shape as x_data.
         '''
-        
-        # Set some p0 and bounds values based on the cycle numbers
-        # of the data being considered by the KneeFinder instance.
-        # These p0 values give the onset and point a starting location
-        # somewhere in the second half of the curve.
-        #self.bw2_p0[4] = x_data[-1]/2.0
-        #self.bw2_p0[5] = x_data[-1]/1.5
-        
-        # Overcome the x0 is infeasible error by adjusting the initial guess
-        # values to be within the range of truncated x values. Specifically,
-        # the initial guess values are within the second half of the x range
-        # self.bw2_p0[4] = x_data[0] + ((x_data[-1] - x_data[0]) / 2.0)
-        # self.bw2_p0[5] = x_data[0] + ((x_data[-1] - x_data[0]) / 1.5)
-        
-        # # Set bounds so onset and point are within x_data's range of values
-        # self.bw2_bounds[1][4] = x_data[-1]
-        # self.bw2_bounds[1][5] = x_data[-1]
-        
-        # self.bw2_bounds[0][4] = x_data[0]
-        # self.bw2_bounds[0][5] = x_data[0]
-        
-        
         
         # Get p0/bounds from self.fitting_params dict
         p0 = self.fitting_params[self.mode]['bw2']['p0']
@@ -538,8 +501,6 @@ class KneeFinder():
         
         Try to fit the asymmetric sigmoid model to self.x_cont and self.y_mon,
         and generate self.sig_fit, which is the prediction, over self.x_cont.
-        
-        
         
         '''
         
