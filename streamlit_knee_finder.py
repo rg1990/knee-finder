@@ -209,7 +209,8 @@ class StreamlitApp():
                            label="Experimental Data")
         
         ax.add_line(data_line)
-        ax.lines = ax.lines[1:] # this is a hack to retain the scale obtained using plot
+        #ax.lines = ax.lines[1:] # this is a hack to retain the scale obtained using plot
+        _ = ax.lines.pop(0)
         
         if self.line_exp_checkbox==True:
             line_exp_line = Line2D(self.kf.x_trunc, self.kf.exp_fit, color='black', label='Line_Exp fit')
