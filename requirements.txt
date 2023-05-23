@@ -4,4 +4,4 @@ scipy
 numpy
 matplotlib
 pwlf
-sklearn
+scikit-learn
