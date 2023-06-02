@@ -51,7 +51,7 @@ class StreamlitApp():
     def add_header_text(self):
         st.header("KneeFinder")
         st.write("Original method developed by Paula Fermín-Cueto et al [1]. Method extended by Richard Gilchrist, Calum Strange, Goncalo dos Reis and Shawn Li [2]. Python implementation and web app by Richard Gilchrist.")
-        st.write("[Source code](https://github.com/rg1990/knee-finder) on GitHub. Accompanying Medium articles to be published.")
+        st.write("[Source code](https://github.com/rg1990/knee-finder) on GitHub. [Accompanying article](https://www.google.com) be published on Medium.")
         st.markdown("""---""")
         
         
