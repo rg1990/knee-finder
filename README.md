@@ -1,10 +1,52 @@
 # knee-finder
+Short spiel about the repo. What does it do and where did the method come from? Who can it be of use to? (battery research community). Link to Medium article for context.
 
 <h3>Usage</h3> 
+Creating an instance of KneeFinder only requires x and y data arrays. The analysis is performed upon instantiation.<br>
+
+
+```python
+# Use default settings
+kf = KneeFinder(x, y)
+``` 
+
+You can optionally enable automatic truncation for handling sigmoid-like curves. Valid options for <code>mode</code> are <code>'knee'</code> and <code>'elbow'</code>.<br>
+
+
+```python
+# Other optional settings
+kf = KneeFinder(x, y, automatic_truncation=False, mode='knee')
+```
+
+The results are stored in the attributes <code>onset</code>, <code>point</code>, <code>onset_y</code>, and <code>point_y</code>.
+
+
+```python
+# Print x results
+print(np.round(kf.onset, 2))
+610.85
+print(np.round(kf.point, 2))
+750.0
+
+# Print y results
+print(np.round(kf.onset_y, 2))
+1.05
+print(np.round(kf.point_y, 2))
+1.03
+```
+
+
+
+<h3>Heading</h3>
+Some stuff in here.
+
+<h3>Heading</h3>
+Some stuff in here.
 
 ---
 <h3>Try it Yourself</h3> 
-You can play with KneeFinder using the interactive Streamlit app available [here](https://rg1990-knee-finder-streamlit-knee-finder-mwgskp.streamlit.app/). You can see the results using example data from Severson et al. [2], a fake sigmoidal degradation curve, or you can upload your own data in CSV format.
+You can play with KneeFinder using the interactive Streamlit app available here: https://rg1990-knee-finder-streamlit-knee-finder-mwgskp.streamlit.app/. In the app, you can see the results using example data from 120 cells (Severson et al. [2]), a fake sigmoidal degradation curve, or you can upload your own data in CSV format.
+<h4>Sub-heading</h4>
 
 ---
 <h3>Acknolwedgements & References</h3>
