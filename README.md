@@ -1,5 +1,5 @@
 # knee-finder
-Short spiel about the repo. What does it do and where did the method come from? Who can it be of use to? (battery research community). Link to Medium article for context.
+This repository implements the algorithm described here: https://www.mdpi.com/1996-1073/14/4/1206, used to identify the location of knee points and knee onsets in battery capacity degradation curves. The paper describes internal resistance "elbows", however the algorithm and this implementation can be applied to both knees and elbows.
 
 <h3>Usage</h3> 
 Creating an instance of KneeFinder only requires x and y data arrays. The analysis is performed upon instantiation.<br>
@@ -34,6 +34,14 @@ print(np.round(kf.onset_y, 2))
 print(np.round(kf.point_y, 2))
 1.03
 ```
+
+You can plot the results using <code>kf.plot_results</code>. This method has optional parameters to show different curve fits (monotonic, line-plus-exponential, asymmetric sigmoid.) The <code>data_style</code> parameter controls the line style for the x and y data.
+
+```python
+kf.plot_results(mon=False, line_exp=False, sig=False, data_style='-')
+```
+
+![Example plot](img/severson_example_result.png)
 
 
 
