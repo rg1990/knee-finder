@@ -16,14 +16,13 @@ class KneeFinder():
     def __init__(self, x, y, automatic_truncation=False, mode='knee', scale_y=False):
         self.x = x
         self.y = y
-        self.scale_y = scale_y
+        self.y_orig = y
+        self.scale_y = scale_y  # not currently used
+                
         self.automatic_truncation = automatic_truncation # whether or not to truncate according to sigmoid fit
         self.mode = mode.lower() # valid options are "knee" or "elbow"
         if self.mode not in ['knee', 'elbow']:
             self.mode = 'knee'
-        
-        if self.scale_y:
-            self.y = self.y / np.max(self.y)
         
         # Initialise end-of-life multipliers
         self.knee_eol_factor = 0.8
@@ -36,9 +35,6 @@ class KneeFinder():
         self.onset_y = None
         self.eol_reached = False
         self.eol_cycle = None
-        
-        # Experimental
-        self.apply_filter = False
         
         # Suppress warnings that may occur during curve fitting
         self.ignore_fitting_warnings()
@@ -66,6 +62,10 @@ class KneeFinder():
         # Generate results for the first time
         # Compute the truncated arrays, get line_exp fit, onset, point and EOL
         self.update_results()
+        
+        # Check for y_scaling. 
+        # if self.scale_y:
+        #     self.set_y_scaling(True)
         
 
     # Methods  
@@ -96,6 +96,25 @@ class KneeFinder():
     def _exponential(self, x, a, b, c, d, theta):
         ''' Formula for the line plus exponential model'''
         return d*np.exp(a*x - b) + c + theta*x
+
+
+    # def set_y_scaling(self, new_setting):
+    #     '''
+    #     Toggle y scaling.
+        
+    #     TODO - This currently doesn't give onset_y and point_y
+    #     values on the original scale of the input y data.
+    #     '''          
+    #     if new_setting == True:
+    #         self.y = (self.y - np.min(self.y)) / (np.max(self.y) - np.min(self.y))
+    #     else:
+    #         self.y = self.y_orig
+        
+    #     self.y_is_scaled = new_setting
+        
+    #     # Get the results using the newly scaled y curve
+    #     self.y_mon = self.fit_monotonic()
+    #     self.update_results()
 
 
     def generate_x_int_array(self):
@@ -280,17 +299,17 @@ class KneeFinder():
         if mon:
             ax.plot(self.x_cont, self.y_mon, label='Monotonic fit', color='green')
         if line_exp:
-            ax.plot(self.x_cont[self.indices], self.exp_fit, label='Line plus exponential fit', color='purple')
+            ax.plot(self.x_cont[self.indices], self.exp_fit, label='Line plus exponential fit', color='fuchsia')
         if sig and self.automatic_truncation and hasattr(self, 'sig_fit'):
             ax.plot(self.x_cont, self.sig_fit, label='Asymmetric sigmoidal fit', color='blue')
         
-        ax.axvline(self.onset, label=f'{self.mode.capitalize()} onset', color='orange')
-        ax.axvline(self.point, label=f'{self.mode.capitalize()} point', color='red')
-        ax.axhline(self.onset_y, color='orange')
-        ax.axhline(self.point_y, color='red')
+        ax.axvline(self.onset, linestyle='--', label=f'{self.mode.capitalize()} onset', color='orange')
+        ax.axvline(self.point, linestyle='--', label=f'{self.mode.capitalize()} point', color='red')
+        ax.axhline(self.onset_y, linestyle='--', color='orange')
+        ax.axhline(self.point_y, linestyle='--', color='red')
         
         if self.eol_cycle != None:
-            ax.axvline(self.eol_cycle, label='End of life', color='black')
+            ax.axvline(self.eol_cycle, linestyle='--', label='End of life', color='black')
         
         ax.grid(alpha=0.4)
         ax.legend()
