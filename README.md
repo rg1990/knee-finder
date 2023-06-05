@@ -1,5 +1,5 @@
 # knee-finder
-Short spiel about the repo. What does it do and where did the method come from? Who can it be of use to? (battery research community). Link to Medium article for context.
+This repository implements the algorithm described here: https://www.mdpi.com/1996-1073/14/4/1206, used to identify the location of knee points and knee onsets in battery capacity degradation curves. The paper describes internal resistance "elbows", however the algorithm and this implementation can be applied to both knees and elbows.
 
 <h3>Usage</h3> 
 Creating an instance of KneeFinder only requires x and y data arrays. The analysis is performed upon instantiation.<br>
@@ -18,39 +18,48 @@ You can optionally enable automatic truncation for handling sigmoid-like curves.
 kf = KneeFinder(x, y, automatic_truncation=False, mode='knee')
 ```
 
-The results are stored in the attributes <code>onset</code>, <code>point</code>, <code>onset_y</code>, and <code>point_y</code>.
+The results are stored in the attributes <code>onset</code>, <code>point</code>, <code>onset_y</code>, <code>point_y</code>, <code>eol_cycle</code>, and <code>eol_val</code>.
 
 
 ```python
-# Print x results
+# Print x results (cycle numbers)
 print(np.round(kf.onset, 2))
-610.85
+>> 280.76
 print(np.round(kf.point, 2))
-750.0
+>> 344.69
 
-# Print y results
+# Print y results (capacity values)
 print(np.round(kf.onset_y, 2))
-1.05
+>> 1.04
 print(np.round(kf.point_y, 2))
-1.03
+>> 1.01
+
+# Print the end of life info
+print(np.round(kf.eol_cycle, 2))
+>> 447
+print(np.round(kf.eol_val, 2))
+>> 0.86
 ```
 
+You can plot the results using <code>kf.plot_results</code>. This method has optional parameters to show different curve fits (monotonic, line-plus-exponential, asymmetric sigmoid.) The <code>data_style</code> parameter controls the line style for the data.
+
+```python
+kf.plot_results(mon=False, line_exp=False, sig=False, data_style='-')
+```
+
+<img src="img/severson_example_result.png" width="640">
 
 
-<h3>Heading</h3>
-Some stuff in here.
 
-<h3>Heading</h3>
-Some stuff in here.
 
 ---
 <h3>Try it Yourself</h3> 
 You can play with KneeFinder using the interactive Streamlit app available here: https://rg1990-knee-finder-streamlit-knee-finder-mwgskp.streamlit.app/. In the app, you can see the results using example data from 120 cells (Severson et al. [2]), a fake sigmoidal degradation curve, or you can upload your own data in CSV format.
-<h4>Sub-heading</h4>
+
 
 ---
 <h3>Acknolwedgements & References</h3>
-The application of Bacon-Watts and double Bacon-Watts to locate the knee point and onset was first described by Fermín-Cueto et al [1].<br><br>
+The application of Bacon-Watts and double Bacon-Watts to locate the knee point and onset was described by Fermín-Cueto et al. in [1].<br><br>
 
 The data used in this repo and in the associated Streamlit app is taken from [2].<br>
 
